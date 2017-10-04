@@ -1,0 +1,13 @@
+Package: PAAQD2
+Type: Package
+Title: A code-refined version of PAAQD
+Version: 0.0.0.9000
+Author: Masato Ogishi
+Maintainer: Masato Ogishi <oogishi-tky@umin.ac.jp>
+Description: A code-refined version of PAAQD.
+Depends: R (>= 3.4.1) 
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Imports: randomForest (>= 4.6-12)
