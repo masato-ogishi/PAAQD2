@@ -16,88 +16,19 @@ PAAQD2 <- function(peptideSet){
   WC = read.table(WC, sep = "\t", header = F)
   HLAseq = read.table(HLAseq, sep = "\t", header = F)
   HLAseq = substr(HLAseq[1, 1], 1, 300)
-  HLAindex = c()
-  indexer <- function(aachar){
-    if (aachar == "A") {
-      return(1)
-    }
-    if (aachar == "R") {
-      return(2)
-    }
-    if (aachar == "N") {
-      return(3)
-    }
-    if (aachar == "D") {
-      return(4)
-    }
-    if (aachar == "C") {
-      return(5)
-    }
-    if (aachar == "Q") {
-      return(6)
-    }
-    if (aachar == "E") {
-      return(7)
-    }
-    if (aachar == "G") {
-      return(8)
-    }
-    if (aachar == "H") {
-      return(9)
-    }
-    if (aachar == "I") {
-      return(10)
-    }
-    if (aachar == "L") {
-      return(11)
-    }
-    if (aachar == "K") {
-      return(12)
-    }
-    if (aachar == "M") {
-      return(13)
-    }
-    if (aachar == "F") {
-      return(14)
-    }
-    if (aachar == "P") {
-      return(15)
-    }
-    if (aachar == "S") {
-      return(16)
-    }
-    if (aachar == "T") {
-      return(17)
-    }
-    if (aachar == "W") {
-      return(18)
-    }
-    if (aachar == "Y") {
-      return(19)
-    }
-    if (aachar == "V") {
-      return(20)
-    }
+  aacharIndices <- 1:20
+  names(aacharIndices) <- unlist(strsplit("ARNDCQEGHILKMFPSTWYV", ""))
+  indexer2 <- function(aaSequence){
+    as.numeric(aacharIndices[unlist(strsplit(aaSequence, ""))])
   }
-  for (i in 1:300) {
-    SeqDex = indexer(substr(HLAseq, i, i))
-    HLAindex = c(HLAindex, SeqDex)
-  }
-  if (c(".") %in% unlist(strsplit(peptideSet[1], ""))) {
+  HLAindex = indexer2(HLAseq)
+  if(c(".") %in% unlist(strsplit(peptideSet[1], ""))) {
     PepsTable = readLines(peptideSet)
-  } else {
+  }else{
     PepsTable = peptideSet
   }
-  TranPepIndex <- function(PepsTable) {
-    Peps = PepsTable
-    n_Peps = length(Peps)
-    TranPeps = matrix(0, n_Peps, 9)
-    for (i in 1:n_Peps) {
-      for (j in 1:9) {
-        TranPeps[i, j] = indexer(substr(Peps[i], j, j))
-      }
-    }
-    return(TranPeps)
+  TranPepIndex <- function(aaSequenceSet) {
+    t(sapply(aaSequenceSet, indexer2))
   }
   SCal <- function(TranPeps) {
     n_Peps = nrow(TranPeps)
@@ -169,6 +100,6 @@ PAAQD2 <- function(peptideSet){
   RES = data.frame("Peptide"=RAW.seq,
                    "PredictedImmunogenicity"=factor(pred, levels=c("Positive", "Negative")),
                    "Probability"=predPROB,
-                   stringsAsFactors = F)
+                   stringsAsFactors=F)
   return(RES)
 }

@@ -1,7 +1,7 @@
 Package: PAAQD2
 Type: Package
 Title: A code-refined version of PAAQD
-Version: 0.0.0.9000
+Version: 0.1.0
 Author: Masato Ogishi
 Maintainer: Masato Ogishi <oogishi-tky@umin.ac.jp>
 Description: A code-refined version of PAAQD.
